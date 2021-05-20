@@ -7,6 +7,11 @@ name = "pypi"
 heroku = "*"
 flask = "*"
 gunicorn = "*"
+pandas = "*"
+numpy = "*"
+XlsxWriter = "*"
+Jinja2 = "*"
+Werkzeug = "*"
 
 [dev-packages]
 
