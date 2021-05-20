@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, redirect, send_file
 import pandas as pd
+from flask import Flask, render_template, request, redirect, send_file
 app = Flask(__name__)
 
 from compare import runComparison, saveToFile
