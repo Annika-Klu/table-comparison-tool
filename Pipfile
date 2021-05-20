@@ -4,14 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-heroku = "*"
 flask = "*"
-gunicorn = "*"
 pandas = "*"
+xlsxwriter = "*"
 numpy = "*"
-XlsxWriter = "*"
-Jinja2 = "*"
-Werkzeug = "*"
+gunicorn = "*"
 
 [dev-packages]
 
