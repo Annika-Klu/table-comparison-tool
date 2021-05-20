@@ -1,5 +1,4 @@
 .vscode
 __pycache__
 /heroku
-/compare-tool
 *.xlsx

@@ -22,7 +22,8 @@
                 }
             }
             button {
-                background-color: rgb(238, 247, 245);
+                background-color: rgba(211, 230, 227, 0.5);
+                width: 30%;
             }
             h2 {
                 margin-top: 1.8em;
@@ -41,7 +42,7 @@
                 <br>It identifies the differences between the entries and lists those found in one of the tables but not the other.</p>
             <h2>Requirements</h2>
             <ul class="flex">
-                The comparison will work if the following criteria apply:
+                The comparison relies on the following criteria:
                 <li>each entry must have a key value that is unique to it. This may be a number (e. g. an order number), but it may as well be a word, or a combination of both</li>
                 <li>the key value must be in the first column of each table</li>
                 <li>the columns you wish to compare must have the same names in each table</li>
@@ -50,7 +51,9 @@
             <h2>Upload files</h2>
             <p>
                 Upload files in <i>.csv</i>, a simple data matrix format that every program should be able to save to. <br>
-                If your tables are in different sheets of the same document, save each to a single CSV file.
+                <b>Make sure to choose the semicolon (;) as a delimiter in the CSV saving options.</b>
+                The delimiter serves to separate column entries from each other in a CSV file. <br>
+                If your tables are in different sheets of the same document, save each sheet to a single CSV file.
             </p>
             <form method="post" enctype="multipart/form-data">
                 <div class="section">
