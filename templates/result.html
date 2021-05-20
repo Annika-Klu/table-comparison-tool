@@ -1,0 +1,34 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+  <h2>Thanks! Here's your result:</h2>
+
+  <form method="post" action="/result">
+    <button name="button" value="clicked">
+      <img alt="comparison result" src="https://s2.svgbox.net/hero-solid.svg?ic=table&color=000" width="32" height="32"><br>
+    </button>
+  </form>
+
+  <div class="section">
+    <button><a href='/'>Run another comparison</a></button>
+  </div>
+  
+  <h2>Like my tool?</h2>
+
+  <div class="section">
+    <p>
+        Hi, I'm Annika, an aspiring developer who created this little tool to solve<br>
+        the table comparison issue I was frequently faced with at my workplace.<br>
+        Hopefully, it will save you some time, too!<br>
+    </p>
+    <button hidden>Buy me a coffee</button>
+  </div>
+  <div class="section">
+    <button><a href='https://github.com/Annika-Klu/' target='blank'>View my github page</a></button>
+  </div> 
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

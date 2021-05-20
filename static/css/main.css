@@ -1,0 +1,64 @@
+body {
+    margin-top: 4em;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.8em;
+}
+.flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+.container {
+    width: 60%;
+    margin: auto;
+    text-align: center;
+}
+input, button {
+    padding: 0.8em 1em;
+    border-style: none;
+    border-radius: 0.5em;
+    
+}
+button {
+    background-color: rgb(230, 235, 234);
+}
+button:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+label {
+    margin: 1em;
+}
+.section {
+    margin: 1em;
+}
+.bold {
+    font-weight: bold;
+}
+h2 {
+    text-decoration: none; 
+    position: relative;
+}
+h2::after {
+    position: absolute;
+    content: '';
+    height: 2px;
+    bottom: -2px; 
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    width: 15%;
+    background:  rgb(206, 233, 228);
+}
+a {
+    text-decoration: none;
+}
+a:visited {
+    color: rgb(121, 118, 118);
+}
+li {
+    text-align: left;
+    width: 80%;
+    margin: auto;
+}

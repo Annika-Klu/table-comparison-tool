@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+        <title>Table Comparison</title>
+        <link rel="stylesheet" href="static/css/main.css">
+        <style>
+            /* override or add*/
+            .flex {
+                margin: 0;
+            }
+            .container {
+                margin: 2em auto;
+            }
+            @media (max-width: 450px) {
+                .container {
+                    width: 80%;
+                    margin: 1em 10%;
+                }
+                h2::after {
+                    width: 25%;
+                }
+            }
+            button {
+                background-color: rgb(238, 247, 245);
+            }
+            h2 {
+                margin-top: 1.8em;
+            }
+            /* new */
+            h1 {
+                margin-bottom: 1.2em;
+            }            
+        </style>
+        {% endblock %}
+    </head>
+    <body class="flex">
+        <div class="container">
+            <h1>Compare Tables</h1>
+            <p>This tool compares two tables based on each entry having a unique key value.
+                <br>It identifies the differences between the entries and lists those found in one of the tables but not the other.</p>
+            <h2>Requirements</h2>
+            <ul class="flex">
+                The comparison will work if the following criteria apply:
+                <li>each entry must have a key value that is unique to it. This may be a number (e. g. an order number), but it may as well be a word, or a combination of both</li>
+                <li>the key value must be in the first column of each table</li>
+                <li>the columns you wish to compare must have the same names in each table</li>
+            </ul>
+            {% block content %}
+            <h2>Upload files</h2>
+            <p>
+                Upload files in <i>.csv</i>, a simple data matrix format that every program should be able to save to. <br>
+                If your tables are in different sheets of the same document, save each to a single CSV file.
+            </p>
+            <form method="post" enctype="multipart/form-data">
+                <div class="section">
+                    <label for="file1"><span class="bold">Table 1</span></label>
+                    <br>
+                    <input required name="file1" type="file" lang="en" class="file-input" accept=".xls, .xlsx, .csv"></input>
+                    <br>
+                </div>
+                <div class="section">
+                    <label for="file2"><span class="bold">Table 2</span></label>
+                    <br>
+                    <input required name="file2" type="file" class="file-input" accept=".xls, .xlsx, .csv"></input>
+                    <br>
+                </div>
+                <button type="submit">Compare!</button>
+            </form>
+            {% endblock %}
+        </div>
+        {% block script %}
+        {% endblock %}
+    </body>
+</html>
