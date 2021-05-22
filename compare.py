@@ -13,7 +13,7 @@ import numpy as np
 
 # to avoid differences being identified based on different data formats: convert numbers to equal format/"syntax", then to string
 def toString(x):
-    print('from ', x, type(x))
+    #print('from ', x, type(x))
     if type(x) == str:
         return x
     if type(x) == np.float64 or type(x) == np.int64:
@@ -23,7 +23,7 @@ def toString(x):
     x = str(float(x))
     if x[-1] == '0':
         x = x[0:-2] #removing .0 from the float
-    print('to ', x, type(x))
+    #print('to ', x, type(x))
     return str(x)
 
 #---Comparison funct-----------------------------------------------------------------------------

@@ -38,8 +38,10 @@
     <body class="flex">
         <div class="container">
             <h1>Compare Tables</h1>
-            <p>This tool compares two tables based on each entry having a unique key value.
-                <br>It identifies the differences between the entries and lists those found in one of the tables but not the other.</p>
+            <p>
+                This tool compares two versions of a table based on each entry (row) having a unique key value. <br>
+                It identifies the differences between the entries and lists those found in one of the tables but not the other.
+            </p>
             <h2>Requirements</h2>
             <ul class="flex">
                 The comparison relies on the following criteria:
@@ -51,8 +53,7 @@
             <h2>Upload files</h2>
             <p>
                 Upload files in <i>.csv</i>, a simple data matrix format that every program should be able to save to. <br>
-                <b>Make sure to choose the semicolon (;) as a delimiter in the CSV saving options.</b>
-                The delimiter serves to separate column entries from each other in a CSV file. <br>
+                <b>Save the CSV files in the UTF-8 encoding standard</b> that works for many different languages and characters.<br>
                 If your tables are in different sheets of the same document, save each sheet to a single CSV file.
             </p>
             <form method="post" enctype="multipart/form-data">
