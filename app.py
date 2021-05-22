@@ -7,25 +7,23 @@ from compare import runComparison, saveToFile
 @app.route('/', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
-        # def findDelimiter(file):
-        #     delimiters = [';', '_', ','] # problem: it is possible to read file under assumption of different delimiter, interpreting entire row as content of first col
-        #     result = pd.DataFrame()
-        #     for delimiter in delimiters:
-        #         try:
-        #             result = pd.read_csv(file, sep=delimiter, engine='python')
-        #         except TypeError:
-        #             print('type error')
-        #         except IndexError:
-        #             print('index error: ', IndexError, delimiter)
-        #         except AttributeError:
-        #             print('attritbute error: ', AttributeError)
-        #         except:
-        #             print('unexpected error with delimiter', delimiter)
-        #     return result
-        # table1 = findDelimiter(request.files['file1'])
-        table1 = pd.read_csv(request.files['file1'], delimiter=';')
-        print(table1)
-        table2 = pd.read_csv(request.files['file2'], delimiter=';')
+        def findDelimiter(file):
+            result = pd.DataFrame()
+            try:
+                result = pd.read_csv(file, sep='[:;,]', engine='python')
+            except TypeError:
+                print('type error')
+            except IndexError:
+                print('index error: ', IndexError)
+            except AttributeError:
+                print('attritbute error: ', AttributeError)
+            except:
+                print('unexpected error with delimiter')
+            return result
+        table1 = findDelimiter(request.files['file1'])
+        # table1 = pd.read_csv(request.files['file1'], delimiter=';')
+        #print(table1)
+        table2 = findDelimiter(request.files['file2'])
 
         writer = pd.ExcelWriter('Comparison.xlsx', engine='xlsxwriter')
 

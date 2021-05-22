@@ -13,15 +13,17 @@ import numpy as np
 
 # to avoid differences being identified based on different data formats: convert numbers to equal format/"syntax", then to string
 def toString(x):
-    #print('from ', x, type(x))
+    print('from ', x, type(x))
     if type(x) == str:
         return x
     if type(x) == np.float64 or type(x) == np.int64:
         x.tolist()
+    if x == None:
+        x = 'NaN'
     x = str(float(x))
     if x[-1] == '0':
         x = x[0:-2] #removing .0 from the float
-    #print('to ', x, type(x))
+    print('to ', x, type(x))
     return str(x)
 
 #---Comparison funct-----------------------------------------------------------------------------
@@ -51,11 +53,11 @@ def runComparison(findDifferingValues, df1, df2):
             valueBList = pd.Series(df2[category].where(keyCol == key).values) #identifiying value for same ID/col in table2 > array with comparison resut for each row
             valueB = list(filter(lambda x: pd.isna(x) == False, valueBList)) #from results array, filtering out only those values that are not 'NaN'
             
-            if (pd.isna(valueBList.values)).all(): #if the result contains only NaN values > cell is empty:
+            if (pd.isna(valueBList.values)).all(): # if the result contains only NaN values > cell is empty:
                     if(pd.isna(value) or value == float('nan')): #see if corresponding value in rowA is NaN, too, in which case don't list as difference
                         break
-                    else: # if corresponding value in rowA is not NAN, redefine valueB so its not an empty array
-                        valueB = [float('nan')]          
+                    else: # if corresponding value in rowA is not NaN, redefine valueB so it's not an empty array
+                        valueB = ['#empty!']          
 
             value = toString(value)
             valueB[0] = toString(valueB[0])
