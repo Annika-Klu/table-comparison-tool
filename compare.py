@@ -25,7 +25,7 @@ def toString(x):
     return str(x)
 
 #---Comparison funct-----------------------------------------------------------------------------
-def runComparison(comparer, df1, df2):
+def runComparison(findDifferingValues, df1, df2):
 
     df_comparison = pd.DataFrame() #tables have to be initalized because they are later referred to for concatenation
     df_entrynotFound = pd.DataFrame()
@@ -88,7 +88,7 @@ def runComparison(comparer, df1, df2):
         
         # if it is found: identify differences and store them in table for for final results file, except for comparison mode '2to1'
         # where differences have already been found + listed and we are only interested in entries that are in table2 but not table1.
-        if df2.loc[keyCol == key].empty == False and comparer != '2to1':
+        if df2.loc[keyCol == key].empty == False and findDifferingValues == True:
             result = compareRows(rowDf1) #pass rowDf1 to compare funct to compare it to corresponding row in table2       
             df_comparison = pd.concat([df_comparison, result])
             #print(result)
