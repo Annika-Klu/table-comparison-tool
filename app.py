@@ -24,7 +24,7 @@ def upload():
         saveToFile(df_entrynotFound, 'Entries not found in table 2', writer)
 
         # re-run with different comparer
-        #comparer = '2to1'
+        # comparer = '2to1'
         df_entrynotFound = runComparison('2to1', table2, table1)[1]
         saveToFile(df_entrynotFound, 'Entries not found in table 1', writer)
         writer.save()
@@ -32,10 +32,6 @@ def upload():
         # table1.to_csv('test', index=False)
         return redirect('/result')
             
-        # if request.files:
-        #     return 'you uploaded something'
-        # else:
-        #     return 'no files uploaded'
     return render_template('main.html')
 
 @app.route('/result', methods=['GET', 'POST'])

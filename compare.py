@@ -4,23 +4,25 @@ import numpy as np
 #IMPROVEMENTS & TO DO
 # add file extension check for CSV format
 # investigate: differentiate between/allow for different delimiters?
-# optional: include part of actual file name from the files that user is uploading to names of saved files
+# different encodings > provide user friendly solutiion/error handling
+# include part of actual file name from the files that user is uploading to names of saved files
 
-#the comparison requires comparing table1 against table2 and vice versa in order to find values that are in one table, but not the other.
-#therefore, the files are imported based on current comparison mode, and in mode 2to1, their order is switched
+# DESCRIPTION
+# the comparison requires comparing table1 against table2 and vice versa in order to find values that are in one table, but not the other.
+# therefore, the files are imported based on current comparison mode, and in mode 2to1, their order is switched
 
-# to avoid diff. based on data format: convert numbers to equal format/"syntax", then to string
+# to avoid differences being identified based on different data formats: convert numbers to equal format/"syntax", then to string
 def toString(x):
-        print('from ', x, type(x))
-        if type(x) == str:
-            return x
-        if type(x) == np.float64 or type(x) == np.int64:
-            x.tolist()
-        x = str(float(x))
-        if x[-1] == '0':
-            x = x[0:-2] #removing .0 from the float
-        print('to ', x, type(x))
-        return str(x)
+    print('from ', x, type(x))
+    if type(x) == str:
+        return x
+    if type(x) == np.float64 or type(x) == np.int64:
+        x.tolist()
+    x = str(float(x))
+    if x[-1] == '0':
+        x = x[0:-2] #removing .0 from the float
+    print('to ', x, type(x))
+    return str(x)
 
 #---Comparison funct-----------------------------------------------------------------------------
 def runComparison(comparer, df1, df2):
@@ -40,7 +42,7 @@ def runComparison(comparer, df1, df2):
         key = toString(rowA[0]) #saving the key value from 1st table so I can get corresponding value from 2nd table
         deviations = pd.DataFrame() #here's where I'll store the info on deviating entries
         
-        #now going through every col entry in rowA
+        # now going through every col entry in rowA
         for category, value in rowA.items():
 
             if category not in df2.columns: #if category(column) does not exist in table 2, ignore & break
@@ -52,7 +54,7 @@ def runComparison(comparer, df1, df2):
             if (pd.isna(valueBList.values)).all(): #if the result contains only NaN values > cell is empty:
                     if(pd.isna(value) or value == float('nan')): #see if corresponding value in rowA is NaN, too, in which case don't list as difference
                         break
-                    else: #if corresponding value in rowA is not NAN, redefine valueB so its not an empty array
+                    else: # if corresponding value in rowA is not NAN, redefine valueB so its not an empty array
                         valueB = [float('nan')]          
 
             value = toString(value)
@@ -60,7 +62,7 @@ def runComparison(comparer, df1, df2):
 
             print(value, valueB[0])
 
-            if value != valueB[0]: #now actually comparing value of key/colName in table1 vs same key/colName in table2
+            if value != valueB[0]: # now actually comparing value of key/colName in table1 vs same key/colName in table2
                 
                 #print('deviating value: ', valueB[0])
                 #print(f'Difference found in entry with ID {key}, in category: {category}') #optional: log the info
@@ -95,20 +97,6 @@ def runComparison(comparer, df1, df2):
 #---End of comparison funct-----------------------------------------------------------------------------
 
 # save results as CSV files, as well as different sheets in same Excel file. Use excel format and writer for that. Index not included in files
-
-#writer = pd.ExcelWriter('Tables_compare.xlsx', engine='xlsxwriter')
 def saveToFile(data, name, writer):
     data.to_excel(writer, sheet_name=str(name), index=False)
     # data.to_csv(str(name), index=False)
-
-# results = runComparison(comparer)
-# df_comparison = results[0]
-# saveToFile(df_comparison, 'Differences table 1 vs 2')
-# df_entrynotFound = results[1]
-# saveToFile(df_entrynotFound, 'Entries not found in table '+comparer[-1])
-
-# comparer = '2to1'
-
-# df_entrynotFound = runComparison(comparer)[1]
-# saveToFile(df_entrynotFound, 'Entries not found in table '+comparer[-1])
-# writer.save()
