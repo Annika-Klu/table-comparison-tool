@@ -10,7 +10,7 @@ def upload():
         def findDelimiter(file):
             result = pd.DataFrame()
             try:
-                result = pd.read_csv(file, sep='[:;,]', engine='python')
+                result = pd.read_csv(file, sep='[:;,"\s+"]', engine='python') # supported delimiters: : - ; - , - space or tabulator
             except TypeError:
                 print('type error: ', TypeError)
             except IndexError:
