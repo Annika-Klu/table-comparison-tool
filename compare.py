@@ -1,12 +1,6 @@
 import pandas as pd
 import numpy as np
 
-#IMPROVEMENTS & TO DO
-# add file extension check for CSV format
-# investigate: differentiate between/allow for different delimiters?
-# different encodings > provide user friendly solutiion/error handling
-# include part of actual file name from the files that user is uploading to names of saved files
-
 # DESCRIPTION
 # the comparison requires comparing table1 against table2 and vice versa in order to find values that are in one table, but not the other.
 # therefore, the files are imported based on current comparison mode, and in mode 2to1, their order is switched
