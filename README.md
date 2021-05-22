@@ -13,9 +13,9 @@ This key value MUST be located in the first column of your table. The orders of 
 
 # Who the heck needs this?
 Well, for myself, it is quite useful at my current job. An important list needs to be maintained in different systems, and the versions have to be compared on a regular basis to see if there is a deviation, or missing entry in either of the systems.
-If you have a use case, too, I very much hope my tool will save you some time - please let me know if it is helpful for you, I'd be happy to hear!
+If you have a use case, too, I very much hope my tool will save you some time!
 
 # Improvements on the to do list
 - add file extension check (CSV file format)
 - more user-friendly solution for different encoding formats, corresponding error handling
-- use names of uploaded files in the comparison file('s) sheets
+- use names of uploaded files in the comparison file('s sheets)
