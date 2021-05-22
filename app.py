@@ -12,17 +12,15 @@ def upload():
             try:
                 result = pd.read_csv(file, sep='[:;,]', engine='python')
             except TypeError:
-                print('type error')
+                print('type error: ', TypeError)
             except IndexError:
                 print('index error: ', IndexError)
             except AttributeError:
                 print('attritbute error: ', AttributeError)
             except:
-                print('unexpected error with delimiter')
+                print('unexpected error loading file')
             return result
         table1 = findDelimiter(request.files['file1'])
-        # table1 = pd.read_csv(request.files['file1'], delimiter=';')
-        #print(table1)
         table2 = findDelimiter(request.files['file2'])
 
         writer = pd.ExcelWriter('Comparison.xlsx', engine='xlsxwriter')
