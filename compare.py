@@ -13,7 +13,7 @@ import numpy as np
 
 # to avoid differences being identified based on different data formats: convert numbers to equal format/"syntax", then to string
 def toString(x):
-    print('from ', x, type(x))
+    #print('from ', x, type(x))
     if type(x) == str:
         return x
     if type(x) == np.float64 or type(x) == np.int64:
@@ -21,7 +21,7 @@ def toString(x):
     x = str(float(x))
     if x[-1] == '0':
         x = x[0:-2] #removing .0 from the float
-    print('to ', x, type(x))
+    #print('to ', x, type(x))
     return str(x)
 
 #---Comparison funct-----------------------------------------------------------------------------
@@ -60,8 +60,7 @@ def runComparison(findDifferingValues, df1, df2):
             value = toString(value)
             valueB[0] = toString(valueB[0])
 
-            print(value, valueB[0])
-
+            #print(value, valueB[0])
             if value != valueB[0]: # now actually comparing value of key/colName in table1 vs same key/colName in table2
                 
                 #print('deviating value: ', valueB[0])
@@ -89,7 +88,7 @@ def runComparison(findDifferingValues, df1, df2):
         # if it is found: identify differences and store them in table for for final results file, except for comparison mode '2to1'
         # where differences have already been found + listed and we are only interested in entries that are in table2 but not table1.
         if df2.loc[keyCol == key].empty == False and findDifferingValues == True:
-            result = compareRows(rowDf1) #pass rowDf1 to compare funct to compare it to corresponding row in table2       
+            result = compareRows(rowDf1) # pass rowDf1 to compare funct to compare it to corresponding row in table2       
             df_comparison = pd.concat([df_comparison, result])
             #print(result)
 
