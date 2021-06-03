@@ -16,6 +16,5 @@ Well, for myself, it is quite useful at my current job. An important list needs 
 If you have a use case, too, I very much hope my tool will save you some time!
 
 ## Improvements on the to do list
-- add file extension check (CSV file format)
-- more user-friendly solution for different encoding formats, corresponding error handling
+- better & more user-friendly error handling
 - use names of uploaded files in the comparison file('s sheets)
