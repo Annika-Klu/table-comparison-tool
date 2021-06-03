@@ -4,22 +4,51 @@ app = Flask(__name__)
 
 from compare import runComparison, saveToFile
 
+app.config["ALLOWED_FILE_EXTENSIONS"] = ["CSV"]
+
+def allowed_extension(filename):
+    
+    if not "." in filename:
+        return False
+
+    ext = filename.rsplit(".", 1)[1]
+
+    if ext.upper() in app.config["ALLOWED_FILE_EXTENSIONS"]:
+        return True
+    else:
+        return False
+
+
 @app.route('/', methods=['GET', 'POST'])
 def upload():
+
     if request.method == 'POST':
-        def findDelimiter(file):
-            result = pd.DataFrame()
-            try:
-                result = pd.read_csv(file, sep='[:;,"\s+"]', engine='python') # supported delimiters: : - ; - , - space or tabulator
-            except TypeError:
-                print('type error: ', TypeError)
-            except IndexError:
-                print('index error: ', IndexError)
-            except AttributeError:
-                print('attritbute error: ', AttributeError)
-            except:
-                print('unexpected error loading file')
-            return result
+
+        if request.files:
+
+            file1 = request.files['file1']
+            print(file1)
+            file2 = request.files['file2']
+            print(file2)
+
+            if not allowed_extension(file1.filename) or not allowed_extension(file2.filename):
+                print("At least one file extension is invalid. Please upload two .csv files!")
+                return "At least one file extension is invalid. Please upload two .csv files!"
+
+            def findDelimiter(file):
+                result = pd.DataFrame()
+                try:
+                    result = pd.read_csv(file, sep='[:;,"\s+"]', engine='python') # supported delimiters: : - ; - , - space or tabulator
+                except TypeError:
+                    print('type error: ', TypeError)
+                except IndexError:
+                    print('index error: ', IndexError)
+                except AttributeError:
+                    print('attritbute error: ', AttributeError)
+                except:
+                    print('unexpected error loading file')
+                return result
+
         table1 = findDelimiter(request.files['file1'])
         table2 = findDelimiter(request.files['file2'])
 
