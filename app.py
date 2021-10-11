@@ -38,15 +38,21 @@ def upload():
             def findDelimiter(file):
                 result = pd.DataFrame()
                 try:
-                    result = pd.read_csv(file, sep='[:;,"\s+"]', engine='python') # supported delimiters: : - ; - , - space or tabulator
-                except TypeError:
-                    print('type error: ', TypeError)
-                except IndexError:
-                    print('index error: ', IndexError)
-                except AttributeError:
-                    print('attritbute error: ', AttributeError)
+                    result = pd.read_csv(file, sep='[:;,]', engine='python', encoding='UTF-8') # supported delimiters: : - ; - ,
+                # except TypeError:
+                #     print('type error: ', TypeError)
+                # except IndexError:
+                #     print('index error: ', IndexError)
+                # except AttributeError:
+                #     print('attritbute error: ', AttributeError)
+                # except:
+                #     print('unexpected error loading file')
+                # return result
                 except:
-                    print('unexpected error loading file')
+                    try: 
+                       result = pd.read_csv(file, sep='[:;,]', engine='python', encoding='latin')
+                    except:
+                        print('File could not be read')
                 return result
 
         table1 = findDelimiter(request.files['file1'])
