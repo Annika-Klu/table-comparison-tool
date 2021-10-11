@@ -52,8 +52,9 @@
             {% block content %}
             <h2>Upload files</h2>
             <p>
-                Upload files in <i>.csv</i>, a simple data matrix format that every program should be able to save to. <br>
-                <b>Save the CSV files in the UTF-8 encoding standard</b> that works for many different languages and characters.<br>
+                Upload files in <i>.csv</i>, a simple data matrix format that every spreadsheet program should be able to save to. <br>
+                In this format, values are separated by a predefined character called the delimiter. This tool supports the following delimiters: : ; , <br>
+                If possible, save the CSV files using a common encoding standard such as UTF-8 that can handle characters of many different languages.<br>
                 If your tables are in different sheets of the same document, save each sheet to a single CSV file.
             </p>
             <form method="post" enctype="multipart/form-data">
