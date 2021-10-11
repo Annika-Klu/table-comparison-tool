@@ -35,28 +35,33 @@ def upload():
                 print("At least one file extension is invalid. Please upload two .csv files!")
                 return "At least one file extension is invalid. Please upload two .csv files!"
 
-            def findDelimiter(file):
+            def decode(file):
                 result = pd.DataFrame()
-                try:
-                    result = pd.read_csv(file, sep='[:;,]', engine='python', encoding='UTF-8') # supported delimiters: : - ; - ,
-                # except TypeError:
-                #     print('type error: ', TypeError)
-                # except IndexError:
-                #     print('index error: ', IndexError)
-                # except AttributeError:
-                #     print('attritbute error: ', AttributeError)
-                # except:
-                #     print('unexpected error loading file')
-                # return result
-                except:
-                    try: 
-                       result = pd.read_csv(file, sep='[:;,]', engine='python', encoding='latin')
+                encoding = ['utf8', 'iso-8859-1', 'ascii', 'latin1']
+                print(file.name)
+                for enc in encoding:
+                    try:
+                        result = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc) # supported delimiters: : - ; - ,
+                        print(type(result))
+                        if not result.empty:
+                            print(enc, result)
+                            break
+                    except TypeError:
+                        print('Type error with enc format: ', enc)
+                        continue
+                    except NameError:
+                        print('Name error with enc format: ', enc)
+                        continue
+                    except UnicodeDecodeError:
+                        print('Unicode decode error with enc format: ', enc)
+                        continue
                     except:
-                        print('File could not be read')
+                        print('File could not be read with enc format: ', enc)
+                        continue
                 return result
 
-        table1 = findDelimiter(request.files['file1'])
-        table2 = findDelimiter(request.files['file2'])
+        table1 = decode(request.files['file1'])
+        table2 = decode(request.files['file2'])
 
         writer = pd.ExcelWriter('Comparison.xlsx', engine='xlsxwriter')
 
