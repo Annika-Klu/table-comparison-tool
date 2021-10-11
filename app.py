@@ -38,51 +38,53 @@ def upload():
 
             # ---- DECODE, 1st ATTEMPT: trying different encoding formats with a loop --------
             
-            # def decode(file):
-            #     result = pd.DataFrame()
-            #     print(file.name)
+            def decode(file):
+                result = pd.DataFrame()
+                print(file.name)
  
-                # encoding = ['utf8', 'iso-8859-1', 'ascii', 'latin1']
-                # for enc in encoding:
-                #     try:
-                #         result = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc) # supported delimiters: : - ; - ,
-                #         print(type(result))
-                #         if not result.empty:
-                #             print(enc, result)
-                #             break
-                #     except IndexError:
-                #         print('Index error with enc format: ', enc)
-                #         continue
-                #     except UnicodeError:
-                #         print('Unicode error with enc format: ', enc)
-                #         continue
-                #     except UnicodeDecodeError:
-                #         print('Unicode decode error with enc format: ', enc)
-                #         continue
-                #     except:
-                #         print('File could not be read with enc format: ', enc)
-                #         continue
-                # return result
+                encoding = ['utf8', 'iso-8859-1', 'ascii', 'latin1']
+                for enc in encoding:
+                    try:
+                        result = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc) # supported delimiters: : - ; - ,
+                        print(type(result))
+                        if not result.empty:
+                            print(enc, result)
+                            break
+                    except IndexError:
+                        print('Index error with enc format: ', enc)
+                        continue
+                    except UnicodeError:
+                        print('Unicode error with enc format: ', enc)
+                        continue
+                    except UnicodeDecodeError:
+                        print('Unicode decode error with enc format: ', enc)
+                        continue
+                    except:
+                        print('File could not be read with enc format: ', enc)
+                        continue
+                    finally:
+                        file.seek(0)
+                return result
 
-        # table1 = decode(request.files['file1'])
-        # table2 = decode(request.files['file2'])
+        table1 = decode(request.files['file1'])
+        table2 = decode(request.files['file2'])
 
         #----- DECODE, 2nd attempt: using chardet module ------
-        def decode(file):
-                check = file.read()
-                file.seek(0)
-                detection = chardet.detect(check)
-                charenc = detection['encoding']
-                print(charenc)
-                return charenc
+        # def decode(file):
+        #         check = file.read()
+        #         file.seek(0)
+        #         detection = chardet.detect(check)
+        #         charenc = detection['encoding']
+        #         print(charenc)
+        #         return charenc
 
-        def define(file):
-            enc = decode(file)
-            table = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
-            return table
+        # def define(file):
+        #     enc = decode(file)
+        #     table = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
+        #     return table
         
-        table1 = define(request.files['file1'])
-        table2 = define(request.files['file2'])
+        # table1 = define(request.files['file1'])
+        # table2 = define(request.files['file2'])
 
         #--------------------------------------------------------
 
