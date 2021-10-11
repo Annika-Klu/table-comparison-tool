@@ -42,13 +42,12 @@ def upload():
                 result = pd.DataFrame()
                 print(file.name)
  
-                encoding = ['utf8', 'iso-8859-1', 'ascii', 'latin1']
+                encoding = ['utf8', 'iso-8859-1', 'ascii', 'latin1', 'hz']
                 for enc in encoding:
                     try:
                         result = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc) # supported delimiters: : - ; - ,
-                        print(type(result))
                         if not result.empty:
-                            print(enc, result)
+                            print('file encoded in format: ', enc)
                             break
                     except IndexError:
                         print('Index error with enc format: ', enc)
