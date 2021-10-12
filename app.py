@@ -98,7 +98,7 @@ def upload():
         file2Name = fileName(file2)
 
         # run comparison table 1 vs table 2, find differences in entry values, and entries that are in table 1, but not table 2
-        results = runComparison(True, table1, table2)
+        results = runComparison(True, file1Name, file2Name, table1, table2)
         df_comparison = results[0]
         saveToFile(df_comparison, (file1Name + ' vs ' + file2Name), writer)
         df_entrynotFound = results[1]
@@ -106,7 +106,7 @@ def upload():
 
         # re-run in different compare mode: This time, the script will not look for differences in entry values again,
         # because that was done during the first run. It will only find entries that are in table 2 but not table 1
-        df_entrynotFound = runComparison(False, table2, table1)[1]
+        df_entrynotFound = runComparison(False, file2Name, file1Name, table2, table1)[1]
         saveToFile(df_entrynotFound, ('Entries not found in ' + file1Name), writer)
         writer.save()
 
