@@ -47,7 +47,7 @@ def upload():
                     try:
                         result = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc) # supported delimiters: : - ; - ,
                         if not result.empty:
-                            print('file encoded in format: ', enc)
+                            print('file decoded with: ', enc)
                             break
                     except IndexError:
                         print('Index error with enc format: ', enc)
