@@ -28,9 +28,7 @@ def upload():
         if request.files:
 
             file1 = request.files['file1']
-            print(file1)
             file2 = request.files['file2']
-            print(file2)
 
             if not allowed_extension(file1.filename) or not allowed_extension(file2.filename):
                 print("At least one file extension is invalid. Please upload two .csv files!")
@@ -40,7 +38,7 @@ def upload():
             
             def decode(file):
                 result = pd.DataFrame()
-                print(file.name)
+                print(file.filename)
  
                 encoding = ['utf8', 'iso-8859-1', 'ascii', 'latin1', 'hz']
                 for enc in encoding:
@@ -96,13 +94,12 @@ def upload():
         df_entrynotFound = results[1]
         saveToFile(df_entrynotFound, 'Entries not found in table 2', writer)
 
-        # re-run with different compare mode: This time, the script will not look for differences in entry values again,
+        # re-run in different compare mode: This time, the script will not look for differences in entry values again,
         # because that was done during the first run. It will only find entries that are in table 2 but not table 1
         df_entrynotFound = runComparison(False, table2, table1)[1]
         saveToFile(df_entrynotFound, 'Entries not found in table 1', writer)
         writer.save()
 
-        # table1.to_csv('test', index=False)
         return redirect('/result')
             
     return render_template('main.html')
