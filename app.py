@@ -40,8 +40,9 @@ def upload():
             file2Name = fileName(file2)
 
             if not allowed_extension(file1.filename) or not allowed_extension(file2.filename):
-                print("At least one file extension is invalid. Please upload two .csv files!")
-                return "At least one file extension is invalid. Please upload two .csv files!"
+                errormsg = "At least one file extension is invalid. Please upload two .csv files!"
+                print(errormsg)
+                return render_template('error.html', error = errormsg)
 
             # ---- DECODE, 1st ATTEMPT: trying different encoding formats with a loop --------
             
@@ -90,7 +91,12 @@ def upload():
             table = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
             return table
         
-        table1 = define(file1)
+        try:
+            table1 = define(file1)
+        except:
+            print('file 1 could not be read')
+            return redirect('/error')
+        
         table2 = define(file2)
 
         #--------------------------------------------------------
