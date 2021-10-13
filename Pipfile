@@ -9,6 +9,7 @@ pandas = "*"
 xlsxwriter = "*"
 numpy = "*"
 gunicorn = "*"
+chardet = "*"
 
 [dev-packages]
 
