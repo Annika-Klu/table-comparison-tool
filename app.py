@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, redirect, send_file
 app = Flask(__name__)
 
 import chardet
+import os
+
 from compare import runComparison, saveToFile
 
 app.config["ALLOWED_FILE_EXTENSIONS"] = ["CSV"]
@@ -96,7 +98,7 @@ def upload():
         table2 = define(file2, file2Name)
 
         #--------------------------------------------------------
-
+        #comparisonFile = file1Name + " vs " + file2Name + ".xlsx"
         writer = pd.ExcelWriter('Comparison.xlsx', engine='xlsxwriter')
 
         # run comparison table 1 vs table 2, find differences in entry values, and entries that are in table 1, but not table 2
