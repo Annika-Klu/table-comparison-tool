@@ -10,11 +10,8 @@ If it doesn't, it will list this entry as an  entry that was found in table 1, b
 ## What does it require?
 The table entries MUST have a unique identifier, or key value. For example, this could be an order number, or an employee number - but it could also be other characters, as long as it is unique to an entry.
 This key value MUST be located in the first column of your table. The orders of the other columns, as well as the orders of the rows in general, is completely irrelevant.
-
-## Who the heck needs this?
-Well, for myself, it is quite useful at my current job. An important list needs to be maintained in different systems, and the versions have to be compared on a regular basis to see if there is a deviation, or missing entry in either of the systems.
-If you have a use case, too, I very much hope my tool will save you some time!
+you have a use case, too, I very much hope my tool will save you some time!
 
 ## Improvements on the to do list
 - better & more user-friendly error handling
-- use names of uploaded files in the comparison file('s sheets)
+- optional settings user can make, e. g. whether tool should be case sensitive when identifying differences or not

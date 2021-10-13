@@ -2,6 +2,7 @@ import pandas as pd
 from flask import Flask, render_template, request, redirect, send_file
 app = Flask(__name__)
 
+import chardet
 from compare import runComparison, saveToFile
 
 app.config["ALLOWED_FILE_EXTENSIONS"] = ["CSV"]
@@ -27,47 +28,88 @@ def upload():
         if request.files:
 
             file1 = request.files['file1']
-            print(file1)
             file2 = request.files['file2']
-            print(file2)
+
+            #shorten filename if necessary and store in variable
+            def fileName(file):
+                if len(file.filename) > 10:
+                    return file.filename[:10] + '...'
+                return file.filename
+
+            file1Name = fileName(file1)
+            file2Name = fileName(file2)
 
             if not allowed_extension(file1.filename) or not allowed_extension(file2.filename):
                 print("At least one file extension is invalid. Please upload two .csv files!")
                 return "At least one file extension is invalid. Please upload two .csv files!"
 
-            def findDelimiter(file):
-                result = pd.DataFrame()
-                try:
-                    result = pd.read_csv(file, sep='[:;,"\s+"]', engine='python') # supported delimiters: : - ; - , - space or tabulator
-                except TypeError:
-                    print('type error: ', TypeError)
-                except IndexError:
-                    print('index error: ', IndexError)
-                except AttributeError:
-                    print('attritbute error: ', AttributeError)
-                except:
-                    print('unexpected error loading file')
-                return result
+            # ---- DECODE, 1st ATTEMPT: trying different encoding formats with a loop --------
+            
+            # def decode(file):
+            #     result = pd.DataFrame()
+            #     print(file.filename)
+ 
+            #     encoding = ['utf8', 'utf16', 'iso-8859-1', 'ascii', 'latin1', 'hz']
+            #     for enc in encoding:
+            #         try:
+            #             result = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
+            #             if not result.empty:
+            #                 print('file decoded with: ', enc)
+            #                 break
+            #         except IndexError:
+            #             print('Index error with enc format: ', enc)
+            #             continue
+            #         except UnicodeError:
+            #             print('Unicode error with enc format: ', enc)
+            #             continue
+            #         except UnicodeDecodeError:
+            #             print('Unicode decode error with enc format: ', enc)
+            #             continue
+            #         except:
+            #             print('File could not be read with enc format: ', enc)
+            #             continue
+            #         finally:
+            #             file.seek(0)
+            #     return result
 
-        table1 = findDelimiter(request.files['file1'])
-        table2 = findDelimiter(request.files['file2'])
+        # table1 = decode(file1)
+        # table2 = decode(file2)
+
+        #----- DECODE, 2nd attempt: using chardet module ------
+
+        def decode(file):
+                check = file.read()
+                file.seek(0)
+                detection = chardet.detect(check)
+                charenc = detection['encoding']
+                print(charenc)
+                return charenc
+
+        def define(file):
+            enc = decode(file)
+            table = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
+            return table
+        
+        table1 = define(file1)
+        table2 = define(file2)
+
+        #--------------------------------------------------------
 
         writer = pd.ExcelWriter('Comparison.xlsx', engine='xlsxwriter')
 
         # run comparison table 1 vs table 2, find differences in entry values, and entries that are in table 1, but not table 2
-        results = runComparison(True, table1, table2)
+        results = runComparison(True, file1Name, file2Name, table1, table2)
         df_comparison = results[0]
-        saveToFile(df_comparison, 'Differences table 1 vs 2', writer)
+        saveToFile(df_comparison, (file1Name + ' vs ' + file2Name), writer)
         df_entrynotFound = results[1]
-        saveToFile(df_entrynotFound, 'Entries not found in table 2', writer)
+        saveToFile(df_entrynotFound, ('Entries not in '+ file2Name), writer)
 
-        # re-run with different compare mode: This time, the script will not look for differences in entry values again,
+        # re-run in different compare mode: This time, the script will not look for differences in entry values again,
         # because that was done during the first run. It will only find entries that are in table 2 but not table 1
-        df_entrynotFound = runComparison(False, table2, table1)[1]
-        saveToFile(df_entrynotFound, 'Entries not found in table 1', writer)
+        df_entrynotFound = runComparison(False, file2Name, file1Name, table2, table1)[1]
+        saveToFile(df_entrynotFound, ('Entries not in ' + file1Name), writer)
         writer.save()
 
-        # table1.to_csv('test', index=False)
         return redirect('/result')
             
     return render_template('main.html')
