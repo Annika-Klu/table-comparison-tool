@@ -1,0 +1,17 @@
+{% extends "main.html" %}
+
+{% block error %}
+
+{% if error == 'extension' %}
+<p style="color: darkred">At least one file extension is invalid. Please upload two .csv files!</p>
+{% endif %}
+
+{% if error == 'encoding' %}
+<p style="color: darkred">{{ file }} could not be decoded. When saving your file, please use a common encoding standard depending on your language. <br>
+Also, make sure your delimiter is either a comma (,) semicolon (;), or a colon(:)!</p>
+{% endif %}
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

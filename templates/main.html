@@ -70,6 +70,8 @@
                     <input required name="file2" type="file" class="file-input" accept=".xls, .xlsx, .csv"></input>
                     <br>
                 </div>
+                {% block error %}
+                {% endblock %}
                 <button type="submit">Compare!</button>
             </form>
             {% endblock %}

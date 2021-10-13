@@ -3,6 +3,8 @@ from flask import Flask, render_template, request, redirect, send_file
 app = Flask(__name__)
 
 import chardet
+import os
+
 from compare import runComparison, saveToFile
 
 app.config["ALLOWED_FILE_EXTENSIONS"] = ["CSV"]
@@ -40,8 +42,7 @@ def upload():
             file2Name = fileName(file2)
 
             if not allowed_extension(file1.filename) or not allowed_extension(file2.filename):
-                print("At least one file extension is invalid. Please upload two .csv files!")
-                return "At least one file extension is invalid. Please upload two .csv files!"
+                return render_template('error.html', error = 'extension')
 
             # ---- DECODE, 1st ATTEMPT: trying different encoding formats with a loop --------
             
@@ -85,16 +86,19 @@ def upload():
                 print(charenc)
                 return charenc
 
-        def define(file):
-            enc = decode(file)
-            table = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
-            return table
+        def define(file, fileName):
+            try: 
+                enc = decode(file)
+                table = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
+                return table
+            except:
+                return render_template('error.html', file = fileName, error = 'encoding')            
         
-        table1 = define(file1)
-        table2 = define(file2)
+        table1 = define(file1, file1Name)
+        table2 = define(file2, file2Name)
 
         #--------------------------------------------------------
-
+        #comparisonFile = file1Name + " vs " + file2Name + ".xlsx"
         writer = pd.ExcelWriter('Comparison.xlsx', engine='xlsxwriter')
 
         # run comparison table 1 vs table 2, find differences in entry values, and entries that are in table 1, but not table 2
