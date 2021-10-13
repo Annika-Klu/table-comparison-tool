@@ -46,15 +46,15 @@
             <ul class="flex">
                 The comparison relies on the following criteria:
                 <li>each entry must have a key value that is unique to it. This may be a number (e. g. an order number), but it may as well be a word, or a combination of both</li>
-                <li>the key value must be in the first column of each table</li>
-                <li>the columns you wish to compare must have the same names in each table</li>
+                <li>the key value must be in the first column of each table. The order of the other columns is irrelevant, however</li>
+                <li>the columns you wish to compare must have the same column names in each table</li>
             </ul>
             {% block content %}
             <h2>Upload files</h2>
             <p>
                 Upload files in <i>.csv</i>, a simple data matrix format that every spreadsheet program should be able to save to. <br>
-                In this format, values are separated by a predefined character called the delimiter. This tool supports the following delimiters: : ; , <br>
-                If possible, save the CSV files using a common encoding standard such as UTF-8 that can handle characters of many different languages.<br>
+                In CSV format, column values are separated by a predefined character called the delimiter, usually a comma by default;<br>
+                if you select a different delimiter when saving your file, please note that this tool supports these three : ; , <br>
                 If your tables are in different sheets of the same document, save each sheet to a single CSV file.
             </p>
             <form method="post" enctype="multipart/form-data">
