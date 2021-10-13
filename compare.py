@@ -21,7 +21,7 @@ def toString(x):
     return str(x)
 
 #---Comparison funct-----------------------------------------------------------------------------
-def runComparison(findDifferingValues, df1, df2):
+def runComparison(findDifferingValues, fileName1, fileName2, df1, df2):
 
     df_comparison = pd.DataFrame() #tables have to be initalized because they are later referred to for concatenation
     df_entrynotFound = pd.DataFrame()
@@ -63,7 +63,7 @@ def runComparison(findDifferingValues, df1, df2):
                 #print(f'Difference found in entry with ID {key}, in category: {category}') #optional: log the info
                 newRow = [[key, category, value, str(valueB[0])]]
                 #print(newRow) #activate when debugging
-                add = pd.DataFrame(newRow, columns=['Entry ID in table 1', 'Difference found in', 'Value in table 1', 'Value in table 2'])
+                add = pd.DataFrame(newRow, columns=[('Entry ID in ' + fileName1), 'Difference found in', ('Value in ' + fileName1), ('Value in ' + fileName2)])
                 deviations = pd.concat([deviations, add])
 
         return deviations
@@ -77,7 +77,7 @@ def runComparison(findDifferingValues, df1, df2):
         # now, look for this key in table 2. If it is not found, add to "not found" sheet for final results file
         if df2.loc[keyCol == key].empty :
             newRow =[[key, rowDf1.index[1], rowDf1.values[1]]]
-            result = pd.DataFrame(newRow, columns=['Key not found in table 2', 'name next col table 1', 'value next col table 1'])
+            result = pd.DataFrame(newRow, columns=[('Key not found in '+ fileName2), ('name next col ' + fileName1), ('value next col ' + fileName1)])
             df_entrynotFound = pd.concat([df_entrynotFound, result]) #add result to compare df
             #print(f'ID no. {key} not found in table 2') #optional: log the info
         
