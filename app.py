@@ -30,6 +30,15 @@ def upload():
             file1 = request.files['file1']
             file2 = request.files['file2']
 
+            #shorten filename if necessary and store in variable
+            def fileName(file):
+                if len(file.filename) > 10:
+                    return file.filename[:10] + '...'
+                return file.filename
+
+            file1Name = fileName(file1)
+            file2Name = fileName(file2)
+
             if not allowed_extension(file1.filename) or not allowed_extension(file2.filename):
                 print("At least one file extension is invalid. Please upload two .csv files!")
                 return "At least one file extension is invalid. Please upload two .csv files!"
@@ -63,8 +72,8 @@ def upload():
             #             file.seek(0)
             #     return result
 
-        # table1 = decode(request.files['file1'])
-        # table2 = decode(request.files['file2'])
+        # table1 = decode(file1)
+        # table2 = decode(file2)
 
         #----- DECODE, 2nd attempt: using chardet module ------
 
@@ -81,21 +90,12 @@ def upload():
             table = pd.read_csv(file, sep='[:;,]', engine='python', encoding=enc)
             return table
         
-        table1 = define(request.files['file1'])
-        table2 = define(request.files['file2'])
+        table1 = define(file1)
+        table2 = define(file2)
 
         #--------------------------------------------------------
 
         writer = pd.ExcelWriter('Comparison.xlsx', engine='xlsxwriter')
-
-        #shorten filename if necessary and store in variable
-        def fileName(file):
-            if len(file.filename) > 10:
-                return file.filename[:10] + '...'
-            return file.filename
-
-        file1Name = fileName(file1)
-        file2Name = fileName(file2)
 
         # run comparison table 1 vs table 2, find differences in entry values, and entries that are in table 1, but not table 2
         results = runComparison(True, file1Name, file2Name, table1, table2)
