@@ -2,6 +2,7 @@
 
 {% block content %}
 
+  {% if available == True %}
   <h2>Thanks! Here's your result:</h2>
 
   <form method="post" action="/result">
@@ -9,6 +10,11 @@
       <img alt="comparison result" src="https://s2.svgbox.net/hero-solid.svg?ic=table&color=000" width="32" height="32"><br>
     </button>
   </form>
+  {% endif %}
+
+  {% if available == False %}
+  <h2>Your file has been deleted.</h2>
+  {% endif %}
 
   <div class="section">
     <button><a href='/'>Run another comparison</a></button>
