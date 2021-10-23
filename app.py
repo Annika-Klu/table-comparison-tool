@@ -130,16 +130,14 @@ def upload():
 
 def result():
     if request.method == 'POST':
-        if request.form.get('button') == 'clicked':
-            try:
-                return send_file('Comparison.xlsx')
-            except:
-                print('file not available anymore')
-                return render_template('result.html', available = False)
-    def delete():
-        os.remove('Comparison.xlsx')
-    t = Timer(15.0, delete)
-    t.start()
+        def delete():
+            os.remove('Comparison.xlsx')
+        t = Timer(1.0, delete)
+        try:
+            t.start()
+            return send_file('Comparison.xlsx')
+        except:
+            return render_template('result.html', available = False)
     return render_template('result.html', available = True)
 
 if __name__ == '__main__':
