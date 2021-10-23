@@ -24,6 +24,9 @@ def allowed_extension(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload():
+    
+    if request.method == 'GET' and os.path.exists('Comparison.xlsx'):
+        os.remove('Comparison.xlsx')
 
     if request.method == 'POST':
 
