@@ -1,13 +1,18 @@
 import pandas as pd
 from flask import Flask, render_template, request, redirect, send_file
+
+config = {
+    "ALLOWED_FILE_EXTENSIONS": "CSV"
+}
+
 app = Flask(__name__)
+app.config.from_mapping(config)
 
 import chardet
 import os
+from threading import Timer
 
 from compare import runComparison, saveToFile
-
-app.config["ALLOWED_FILE_EXTENSIONS"] = ["CSV"]
 
 def allowed_extension(filename):
     
@@ -24,7 +29,7 @@ def allowed_extension(filename):
 
 @app.route('/', methods=['GET', 'POST'])
 def upload():
-    
+
     if request.method == 'GET' and os.path.exists('Comparison.xlsx'):
         os.remove('Comparison.xlsx')
 
@@ -122,11 +127,20 @@ def upload():
     return render_template('main.html')
 
 @app.route('/result', methods=['GET', 'POST'])
+
 def result():
     if request.method == 'POST':
         if request.form.get('button') == 'clicked':
-            return send_file('Comparison.xlsx')
-    return render_template('result.html')
+            try:
+                return send_file('Comparison.xlsx')
+            except:
+                print('file not available anymore')
+                return render_template('result.html', available = False)
+    def delete():
+        os.remove('Comparison.xlsx')
+    t = Timer(15.0, delete)
+    t.start()
+    return render_template('result.html', available = True)
 
 if __name__ == '__main__':
     app.run(debug=True)
