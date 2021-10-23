@@ -26,12 +26,14 @@ def allowed_extension(filename):
     else:
         return False
 
+def delete():
+    os.remove('Comparison.xlsx')
 
 @app.route('/', methods=['GET', 'POST'])
 def upload():
 
     if request.method == 'GET' and os.path.exists('Comparison.xlsx'):
-        os.remove('Comparison.xlsx')
+        delete()
 
     if request.method == 'POST':
 
@@ -130,8 +132,6 @@ def upload():
 
 def result():
     if request.method == 'POST':
-        def delete():
-            os.remove('Comparison.xlsx')
         t = Timer(1.0, delete)
         try:
             t.start()
